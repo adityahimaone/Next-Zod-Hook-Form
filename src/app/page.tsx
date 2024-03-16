@@ -38,14 +38,6 @@ const formSchema = z.object({
 });
 
 const Page = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-    getValues,
-  } = useForm();
-
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -72,7 +64,7 @@ const Page = () => {
         message: 'Product created successfully.',
         type: 'success',
       });
-      reset();
+      form.reset();
     } else {
       toast({
         title: 'Error',
@@ -83,7 +75,6 @@ const Page = () => {
     console.log(response, 'response');
   };
 
-  console.log(errors, 'errors');
   return (
     <div className="mx-auto max-w-screen-md px-8 py-2">
       <h1 className="mb-5 text-center text-xl font-bold">React Hook Form</h1>
@@ -99,11 +90,8 @@ const Page = () => {
                   <Input
                     placeholder="title"
                     {...field}
-                    className={cn('border-slate-200', {
-                      'border-red-500': form.formState.errors.title,
-                      'ring-2 ring-red-500 ring-offset-2':
-                        form.formState.errors.title,
-                      'ring-red-500 ring-offset-2 focus:ring-2':
+                    className={cn({
+                      'border-red-500 ring-2  ring-offset-2 focus:ring-2 focus:ring-offset-2 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2':
                         form.formState.errors.title,
                     })}
                   />
@@ -125,6 +113,10 @@ const Page = () => {
                     type="number"
                     {...field}
                     onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                    className={cn({
+                      'border-red-500 ring-2  ring-offset-2 focus:ring-2 focus:ring-offset-2 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2':
+                        form.formState.errors.price,
+                    })}
                   />
                 </FormControl>
                 <FormMessage />
@@ -138,7 +130,14 @@ const Page = () => {
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="description" {...field} />
+                  <Textarea
+                    placeholder="description"
+                    {...field}
+                    className={cn({
+                      'border-red-500 ring-2  ring-offset-2 focus:ring-2 focus:ring-offset-2 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2':
+                        form.formState.errors.description,
+                    })}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -156,7 +155,12 @@ const Page = () => {
                       field.onChange(parseInt(value, 10));
                     }}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger
+                      className={cn({
+                        'border-red-500 ring-2  ring-offset-2 focus:ring-2 focus:ring-offset-2 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2':
+                          form.formState.errors.categoryId,
+                      })}
+                    >
                       <SelectValue placeholder="Select a Category" />
                     </SelectTrigger>
                     <SelectContent>
