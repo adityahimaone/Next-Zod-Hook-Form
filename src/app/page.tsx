@@ -30,9 +30,13 @@ import { useToast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
-  title: z.string().nonempty(),
+  title: z.string().min(1, {
+    message: 'Title is required!',
+  }),
   price: z.number().positive(),
-  description: z.string().nonempty(),
+  description: z.string().min(1, {
+    message: 'Description is required!',
+  }),
   categoryId: z.number().positive(),
   images: z.array(z.string()),
 });
@@ -154,6 +158,7 @@ const Page = () => {
                     onValueChange={(value) => {
                       field.onChange(parseInt(value, 10));
                     }}
+                    defaultValue={form.watch('categoryId')?.toString()}
                   >
                     <SelectTrigger
                       className={cn({
